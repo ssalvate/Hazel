@@ -11,6 +11,13 @@ workspace "Hazel"
 --Check premake wiki for commands like %{cfg.  }
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+-- Include directories relative to root folder (solution directory)
+IncludeDir = {}
+IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include"
+
+--This includes the premake5.lua file inside of GLFW folder
+include "Hazel/vendor/GLFW" 
+
 project "Hazel"
 	location "Hazel"
 	kind "SharedLib" --Dynamic library
@@ -20,7 +27,7 @@ project "Hazel"
 	objdir ("bin-int/" .. outputdir .."/%{prj.name}")
 
 	pchheader "hzpch.h"
-	pchsource "Hazel/src/hzpch.cpp" --for visual studiio
+	pchsource "Hazel/src/hzpch.cpp" --for visual studio
 
 	files
 	{
@@ -31,7 +38,14 @@ project "Hazel"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	--Only one filter is used, i.e does not do windows + debug, just does debug
