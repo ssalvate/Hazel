@@ -14,9 +14,11 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
 IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include"
+IncludeDir["Glad"] = "Hazel/vendor/Glad/include"
 
 --This includes the premake5.lua file inside of GLFW folder
 include "Hazel/vendor/GLFW" 
+include "Hazel/vendor/Glad" 
 
 project "Hazel"
 	location "Hazel"
@@ -39,12 +41,14 @@ project "Hazel"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
 	}
 
 	links
 	{
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -57,7 +61,8 @@ project "Hazel"
 		defines
 		{
 			"HZ_PLATFORM_WINDOWS",
-			"HZ_BUILD_DLL"
+			"HZ_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		--Move that Hazel.dll file over after building into Sandbox
