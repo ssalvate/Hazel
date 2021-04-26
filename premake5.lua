@@ -19,9 +19,11 @@ IncludeDir["Glad"] = "Hazel/vendor/Glad/include"
 IncludeDir["ImGui"] = "Hazel/vendor/imgui"
 
 --This includes the premake5.lua file inside of GLFW folder
-include "Hazel/vendor/GLFW" 
-include "Hazel/vendor/Glad" 
-include "Hazel/vendor/imgui" 
+group "Dependencies"
+	include "Hazel/vendor/GLFW" 
+	include "Hazel/vendor/Glad" 
+	include "Hazel/vendor/imgui" 
+group ""
 
 project "Hazel"
 	location "Hazel"
@@ -73,7 +75,7 @@ project "Hazel"
 		--Move that Hazel.dll file over after building into Sandbox
 		postbuildcommands
 		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
 		}
 
 	filter "configurations:Debug"
