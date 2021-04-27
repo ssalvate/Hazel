@@ -69,14 +69,14 @@ namespace Hazel {
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 
-			auto [x, y] = Input::GetMousePosition();
+			/*auto [x, y] = Input::GetMousePosition();
 			HZ_CORE_TRACE("Mouse Position: {0}, {1}", x, y);
 
 			auto state = Input::IsMouseButtonPressed(0);
 			HZ_CORE_TRACE("Is LMB Down: {0}", state);
 
 			auto keyState = Input::IsKeyPressed(32);
-			HZ_CORE_TRACE("Is Sapce Down: {0}", keyState);
+			HZ_CORE_TRACE("Is Sapce Down: {0}", keyState);*/
 			
 			m_Window->OnUpdate();
 		}
