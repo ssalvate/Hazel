@@ -1,8 +1,12 @@
 #include <Hazel.h>
 
+#include "Platform/OpenGL/OpenGLShader.h"
+
 #include "imgui/imgui.h"
 
+#include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
 
 class ExampleLayer : public Hazel :: Layer
 {
@@ -96,9 +100,9 @@ public:
 			}
 		)";
 
-		m_Shader.reset(new Hazel::Shader(vertexSrc, fragmentSrc));
+		m_Shader.reset(Hazel::Shader::Create(vertexSrc, fragmentSrc));
 
-		std::string blueShaderVertexSrc = R"(
+		std::string flatColorShaderVertexSrc = R"(
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
@@ -115,26 +119,25 @@ public:
 			}
 		)";
 
-		std::string blueShaderFragmentSrc = R"(
+		std::string flatShaderFragmentSrc = R"(
 			#version 330 core
 			
 			layout(location = 0) out vec4 color;
 		
 			in vec3 v_Position;			
 
+			uniform vec3 u_Color;
+
 			void main()
 			{
-				color = vec4(0.0,0.2,0.8,1.0);
+				color = vec4(u_Color, 1.0);
 			}
 		)";
 
-		m_BlueShader.reset(new Hazel::Shader(blueShaderVertexSrc, blueShaderFragmentSrc));
+		m_FlatShader.reset(Hazel::Shader::Create (flatColorShaderVertexSrc, flatShaderFragmentSrc));
 
 	}
 
-	virtual void OnImGuiRender() override
-	{
-	}
 
 	void OnUpdate(Hazel::Timestep ts) override
 	{
@@ -168,17 +171,27 @@ public:
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_FlatShader)->Bind();
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_FlatShader)->UploadUniformFloat3("u_Color", m_SquareColor);
+
 		for (int y = 0; y < 20; y++)
 			for (int x = 0; x < 20; x++)
 		{
 			glm::vec3 position(x * 0.11f, y * 0.11f, 0.0f);
 			glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * scale;
-			Hazel::Renderer::Submit(m_BlueShader, m_SquareVA, transform);
+			Hazel::Renderer::Submit(m_FlatShader, m_SquareVA, transform);
 		}
 		
 		Hazel::Renderer::Submit(m_Shader, m_VertexArray);
 
 		Hazel::Renderer::EndScene();
+	}
+
+	virtual void OnImGuiRender() override
+	{
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
+		ImGui::End();
 	}
 
 	void OnEvent(Hazel::Event& event) override
@@ -190,7 +203,7 @@ private:
 	std::shared_ptr<Hazel::Shader> m_Shader;
 	std::shared_ptr<Hazel::VertexArray> m_VertexArray;
 
-	std::shared_ptr<Hazel::Shader> m_BlueShader;
+	std::shared_ptr<Hazel::Shader> m_FlatShader;
 	std::shared_ptr<Hazel::VertexArray> m_SquareVA;
 
 	Hazel::OrthographicCamera m_Camera;
@@ -199,6 +212,8 @@ private:
 
 	float m_CameraRotation = 0.0f;
 	float m_CameraRotationSpeed = 90.0f;
+
+	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
 };
 
 
