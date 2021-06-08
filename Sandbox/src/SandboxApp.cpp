@@ -195,8 +195,8 @@ public:
 	void OnEvent(Hazel::Event& e) override
 	{
 		m_CameraController.OnEvent(e);
-	}
 
+	}
 
 private:
 	Hazel::ShaderLibrary m_ShaderLibrary;
