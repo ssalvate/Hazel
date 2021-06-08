@@ -10,7 +10,10 @@ namespace Hazel {
 	LayerStack::~LayerStack()
 	{
 		for (Layer* layer : m_Layers)
+		{
+			layer->OnDetach();
 			delete layer;
+		}
 	}
 
 	//Layers are placed in a defined place on the stack to seperate from overlay layers
