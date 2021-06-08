@@ -80,7 +80,6 @@ project "Hazel"
 
 		defines
 		{
-			"HZ_PLATFORM_WINDOWS",
 			"HZ_BUILD_DLL",
 			"GLFW_INCLUDE_NONE"
 		}
@@ -133,11 +132,6 @@ project "Sandbox"
 	--Only one filter is used, i.e does not do windows + debug, just does debug
 	filter "system:windows"
 		systemversion "latest"
-
-		defines
-		{
-			"HZ_PLATFORM_WINDOWS"
-		}
 
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
