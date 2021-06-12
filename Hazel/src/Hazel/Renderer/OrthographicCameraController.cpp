@@ -4,6 +4,8 @@
 #include "Hazel/Core/Input.h"
 #include "Hazel/Core/KeyCodes.h"
 
+#include "Hazel/Core/Log.h"
+
 namespace Hazel
 {
 	OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation)
@@ -13,10 +15,11 @@ namespace Hazel
 	}
 
 	void OrthographicCameraController::OnUpdate(Timestep ts)
-	{
+	{	
 		if (Input::IsKeyPressed(HZ_KEY_A))
+		{
 			m_CameraPosition.x -= m_CameraTranslationSpeed * ts;
-
+		}
 		else if (Input::IsKeyPressed(HZ_KEY_D))
 			m_CameraPosition.x += m_CameraTranslationSpeed * ts;
 
