@@ -23,7 +23,7 @@ namespace Hazel {
 
 	// Interface representing a desktop system based Window
 	//I.e Create an implementation of this class for each platform -> ex.WindowsWindow.h
-	class HAZEL_API Window
+	class Window
 	{
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;

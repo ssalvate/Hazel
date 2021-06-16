@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Hazel/Core/Core.h"
+#include "Core.h"
 #include "Layer.h"
 
 #include <vector>
@@ -9,10 +9,10 @@ namespace Hazel {
 
 	// A layerStack owns a vector of layers for the duration of the stacks life in an app,
 	// and as long as the layers are not taken out of the stack they will be mem handled
-	class HAZEL_API LayerStack
+	class LayerStack
 	{
 	public:
-		LayerStack();
+		LayerStack() = default;
 		~LayerStack();
 
 		void PushLayer(Layer* layer);
