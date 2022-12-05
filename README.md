@@ -11,4 +11,4 @@ I wrote code following along episodes 1-58 of a series by Youtuber "The Cherno",
 * Build Systems
 
 <img src="img/Hazel_1.png" style=" width:480px ; height:270px">
-<img src="img/Hazel_2.png" style=" width:480px ; height:270px">
+<img src="img/Hazel_3.png" style=" width:480px ; height:270px">
